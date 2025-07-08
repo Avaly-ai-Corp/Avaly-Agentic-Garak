@@ -1,7 +1,6 @@
 
 ![Avaly Logo](./logo.png)
 
-Open-source Agentic Garak — the first agent-driven Garak, built by Avaly.ai.
 
 >Introducing the first agentic version of [Garak](https://github.com/NVIDIA/garak/) by Avaly.ai. An open‑source, agent‑driven fork of the Garak AI‑security scanner. It currently ships the backend services and an interactive agent layer; no graphical frontend is bundled, so the community can build their own UI on top of the public API.
 
