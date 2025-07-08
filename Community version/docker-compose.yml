@@ -1,0 +1,59 @@
+version: "3.8"  # Specify the Docker Compose file version
+
+services:
+  # --- Agent Service ---
+  agent:
+    image: agent  # Image name for the agent service
+    container_name: agent  # Name of the container
+    build:  # Build configuration
+      context: ./agent  # Path to the agent's Dockerfile context
+      dockerfile: textattack.dockerfile  # Dockerfile to use for building the image
+    networks:  # Network configuration
+      - appnet  # Attach the agent to the 'appnet' network
+    ports:  # Port mappings
+      - "8000:8000"  # Map port 8000 on the host to port 8000 in the container
+    environment:  # Environment variables
+      - OLLAMA_API_BASE=http://host.docker.internal:11434  # API base URL for Ollama
+    volumes:  # Volume mounts
+      - attack_data:/attack_data  # Mount the 'attack_data' volume to /attack_data in the container
+    develop:  # Development-specific settings
+      watch:  # Watch for changes in the agent's code
+        - action: sync  # Action to take when changes are detected (sync files)
+          path: ./agent/multi_tool_agent  # Path to watch
+          target: /workspace/multi_tool_agent  # Target directory in the container
+          ignore:  # Files/directories to ignore
+            - .git/
+
+  # --- Backend Service ---
+  backend:
+    image: backend:latest  # Image name for the backend service
+    container_name: backend  # Name of the container
+    build:  # Build configuration
+      context: ./backend  # Path to the backend's Dockerfile context
+      dockerfile: backend.dockerfile  # Dockerfile to use for building the image
+    networks:  # Network configuration
+      - appnet  # Attach the backend to the 'appnet' network
+    ports:  # Port mappings
+      - "5000:5000"  # Map port 5000 on the host to port 5000 in the container
+    volumes:  # Volume mounts
+      - attack_data:/attack_data  # Mount the 'attack_data' volume to /attack_data in the container
+        # Adjust path as needed (relative to backend dir)
+    develop:  # Development-specific settings
+      watch:  # Watch for changes in the backend's code
+        - action: sync  # Action to take when changes are detected (sync files)
+          path: ./backend  # Path to watch
+          target: /app  # Target directory in the container
+          ignore:  # Files/directories to ignore
+            - .git/
+
+  
+
+ 
+# --- Network Configuration ---
+networks:
+  appnet:  # Define the 'appnet' network
+    driver: bridge  # Use the bridge network driver
+
+# --- Volume Configuration ---
+volumes:
+  attack_data:  # Define the 'attack_data' volume
