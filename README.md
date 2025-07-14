@@ -95,7 +95,7 @@ curl -X POST http://localhost:5000/api/run \
            "userId": "myusername",
            "sessionId": "<session_id>",
            "newMessage": {
-             "parts": [{"text": "Run Scan with Gpt2 and lmrc probes? "}],
+             "parts": [{"text": "Run Scan with model name Gpt2 and probes is lmrc?"}],
              "role": "user"
            },
            "streaming": false
