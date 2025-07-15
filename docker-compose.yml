@@ -7,7 +7,7 @@ services:
     container_name: agent  # Name of the container
     build:  # Build configuration
       context: ./agent  # Path to the agent's Dockerfile context
-      dockerfile: textattack.dockerfile  # Dockerfile to use for building the image
+      dockerfile: garak.dockerfile  # Dockerfile to use for building the image
     networks:  # Network configuration
       - appnet  # Attach the agent to the 'appnet' network
     ports:  # Port mappings
